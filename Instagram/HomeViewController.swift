@@ -182,9 +182,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let indexPath = tableView.indexPathForRow(at: point)
         
         //コメントを入手
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath! as IndexPath) as! PostTableViewCell
+        //let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath! as IndexPath) as! PostTableViewCell
+        let cell = tableView.cellForRow(at: indexPath!) as! PostTableViewCell
         let coment = cell.comentLabel?.text
-        
        
         
         //コメントが入力されていたら、Firebaseに保存する

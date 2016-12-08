@@ -112,7 +112,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return postArray.count
     }
     
-    
+    //セルの内容に関するメソッド
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを取得してデータを設定する
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath as IndexPath) as! PostTableViewCell
@@ -136,8 +136,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
     }
     
-    // セル内のボタンがタップされた時に呼ばれるメソッド
-    func handleButton(sender: UIButton, event:UIEvent) {
+    //  ライクボタンが押されたときのメソッド
+        func handleButton(sender: UIButton, event:UIEvent) {
         print("DEBUG_PRINT: likeボタンがタップされました。")
         
         // タップされたセルのインデックスを求める
@@ -181,23 +181,24 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let point = touch!.location(in: self.tableView)
         let indexPath = tableView.indexPathForRow(at: point)
         
-        // 配列からタップされたインデックスのデータを取り出す
-        let postData = postArray[indexPath!.row]
-        
         //コメントを入手
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath! as IndexPath) as! PostTableViewCell
-        var coment = cell.comentLabel.text
+        let coment = cell.comentLabel?.text
+        
+       
         
         //コメントが入力されていたら、Firebaseに保存する
         if (coment?.characters.isEmpty)! {
             print("coment\(cell.comentLabel)")
-            coment = "test"
+        
         }else{
-        //Firebaseにコメントと名前を保存(captionにコメント等を追加していくスタイル）
+       
+        let postData = postArray[indexPath!.row]
         let postRef = FIRDatabase.database().reference().child(Const.PostPath).child(postData.id!)
         let caption_value = postData.caption! + "\n" + coment! + " ::" + postData.name!
         let caption = ["caption": caption_value]
         postRef.updateChildValues(caption)
+            
         }
     }
 
